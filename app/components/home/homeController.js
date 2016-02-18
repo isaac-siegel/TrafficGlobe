@@ -62,7 +62,7 @@ app.controller('HomeController', function($firebase, $firebaseAuth, firebaseServ
 
                         globe.addDynamicBlock(point);
 
-                    }, 500);
+                    }, 1000);
 
 
                     console.log(data);

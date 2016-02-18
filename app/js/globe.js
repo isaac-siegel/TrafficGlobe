@@ -52,7 +52,7 @@ var Globe = function(container, urls) {
     // holds all block references
     //var blocks = [];
 
-    var blocks = new GeoTree();
+    var blocks = {};
 
     // What gets exposed by calling:
     //
@@ -489,7 +489,11 @@ var Globe = function(container, urls) {
         levitatingBlocks.forEach(function(block, i) {
 
             var userData = block.userData;
-            // console.log(userData.altitude)
+
+            if (!userData){
+                console.log(block)
+                debugger;
+            }
 
             // if entirely outide of earth, stop levitating
             if (userData.altitude > userData.targetAltitude || userData.altitude > 200 + userData.size / 2) {
@@ -507,11 +511,15 @@ var Globe = function(container, urls) {
     var periodicReducer = function() {
 
         setInterval(function() {
-            blocks.forEach(function(block) {
+            for (var key in blocks){
+                var block = blocks[key];
                 var userData = block.userData;
 
                 //block has lowered past starting
                 if (userData.altitude < 200 - userData.size / 1.5)   {
+                    scene.remove(blocks[key]);
+                    delete blocks[key];
+                    console.log("Removing block. Now " + blocks.length)
                     return;
                 }
                 //block.material.color.set('#'+Math.floor(Math.random()*16777215).toString(16))
@@ -520,13 +528,17 @@ var Globe = function(container, urls) {
                 userData.targetAltitude -= 1;
                 set3dPosition(block);
                 block.updateMatrix();
+            }
 
-            })
-        }, 60000);
+        }, 5000);
 
-    }
-    periodicReducer()
+    };
+    periodicReducer();
 
+    var hashCoordinate = function(lat,lng) {
+        return lat + " " + lng;
+
+    };
 
     //        Public functions
 
@@ -629,16 +641,17 @@ var Globe = function(container, urls) {
     api.addDynamicBlock = function(data) {
         var block = createLevitatingBlock(data);
 
-        scene.add(block);
+        //scene.add(block);
         //blocks.push(block);
 
-        var preExistingDataAtLocation = blocks.find({
-            lat: data.lat,
-            lng: data.lon
-        })
+        var key = hashCoordinate(data.lat, data.lon);
+        var preExistingDataAtLocation = blocks[key];
 
-        if (preExistingDataAtLocation.length != 0) {
-            var oldBlock = preExistingDataAtLocation[0];
+        console.log(key,preExistingDataAtLocation)
+
+        if (preExistingDataAtLocation) {
+            console.log("INSIDE")
+            var oldBlock = preExistingDataAtLocation;
             var userData = oldBlock.userData;
             // Increase target altitude
             userData.targetAltitude = userData.targetAltitude + 10;
@@ -654,12 +667,10 @@ var Globe = function(container, urls) {
 
 
         } else {
-            blocks.insert({
-                lat: data.lat,
-                lng: data.lon,
-                data: block
-            });
-            levitatingBlocks.push(block)
+            blocks[key] = block;
+            levitatingBlocks.push(block);
+            scene.add(block);
+
         }
 
         return this;
@@ -703,13 +714,15 @@ var Globe = function(container, urls) {
 
     // Remove all blocks from the globe.
     api.removeAllBlocks = function() {
-        blocks.forEach(function(block) {
-            console.log(block)
+        for (var key in blocks){
+            var block = blocks[key];
+            console.log(block);
             scene.remove(block);
-        });
 
-        //blocks = [];
-        blocks = new GeoTree()
+        }
+
+
+        blocks = {}
 
         return this;
     }
