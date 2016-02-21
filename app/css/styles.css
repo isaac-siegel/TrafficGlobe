@@ -70,19 +70,20 @@ body {
 }
 
 #title {
-    padding-left: 50px;
+    padding-left: 75px;
+    padding-top: 3vh;
 }
 
-#navbar {
+#left-links{
     padding-top: 3vh;
-    height: 5vh;
-    /*background-color: green;*/
-    /*position: absolute;*/
+}
 
+
+#navbar {
+    width: 100%;
 }
 
 #navbar-contents {
-    position: relative;
 }
 
 
@@ -93,18 +94,20 @@ body {
 
 #homepage-content{
     padding-top: 30vh;
-
 }
 
 .left{
-    float: left;
+    left:0;
+    position: absolute;
 }
 .right{
-    float:right;
+    right:0;
+    position: absolute;
 }
 
 #previewGlobe{
     z-index: -1;
 }
+
 
 

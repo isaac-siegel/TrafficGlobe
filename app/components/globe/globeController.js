@@ -10,8 +10,6 @@ app.controller('GlobeController', function(firebaseService,$scope, $location) {
        nightLights:"img/globeImages/worldNightLights.jpg",
     }
 
-    globeCtrl.hello ="sup"
-
     globeCtrl.username = firebaseService.username;
 
     globeCtrl.getTrackingCode = firebaseService.getTrackingCode;
@@ -74,7 +72,7 @@ app.controller('GlobeController', function(firebaseService,$scope, $location) {
     }
 
     globeCtrl.displayTrackingCode = function() {
-        alert( globeCtrl.getTrackingCode())
+        alert("Copy and paste this code to your site: \n" + globeCtrl.getTrackingCode())
 
     }
 
@@ -83,7 +81,9 @@ app.controller('GlobeController', function(firebaseService,$scope, $location) {
     setInterval(function(){
         if(interval == 5){
             /* if intervall reaches 5 the user is inactive hide element/s */
-            $('.side-controls').hide();
+            $('.hide-timeout').fadeOut();
+            $('body').css('cursor', 'none');
+
             interval = 1;
         }
         interval = interval+1;
@@ -92,7 +92,9 @@ app.controller('GlobeController', function(firebaseService,$scope, $location) {
 
     $(document).bind('mousemove keypress', function() {
         /* on mousemove or keypressed show the hidden input (user active) */
-        $('.side-controls').show();
+        $('.hide-timeout').fadeIn();
+        $('body').css('cursor', 'auto');
+
         interval = 1;
     });
 

@@ -3,6 +3,22 @@ app.controller('HomeController', function($firebase, $firebaseAuth, firebaseServ
     var globe;
     var refreshIntervalId;
 
+
+
+    var elem = document.getElementById("everything");
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+    }
+
+    //elem.requestFullscreen(); // standard
+
+
     previewGlobe();
 
     homeCtrl.login = function() {

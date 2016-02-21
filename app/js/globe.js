@@ -16,6 +16,7 @@ var Globe = function(container, urls) {
     var animationFrameId;
     //OPTION TOGGLES
     var SPIN_GLOBE = true;
+    var totalBlocksOnGlobe;
 
     //MATH
     var PI = Math.PI;
@@ -65,6 +66,7 @@ var Globe = function(container, urls) {
     // Spawns the globe
     api.init = function() {
         setSize();
+        totalBlocksOnGlobe = 0;
 
         // Camera
         camera = new THREE.PerspectiveCamera(30, w / h, 1, 1500);
@@ -509,28 +511,38 @@ var Globe = function(container, urls) {
     }
 
     var periodicReducer = function() {
-
         setInterval(function() {
-            for (var key in blocks){
-                var block = blocks[key];
-                var userData = block.userData;
+            if (totalBlocksOnGlobe > 500){
+                console.log("Reducing, there are currently "+ totalBlocksOnGlobe+" blocks on globe.")
+                for (var key in blocks){
+                    var block = blocks[key];
+                    var userData = block.userData;
 
-                //block has lowered past starting
-                if (userData.altitude < 200 - userData.size / 1.5)   {
-                    scene.remove(blocks[key]);
-                    delete blocks[key];
-                    console.log("Removing block. Now " + blocks.length)
-                    return;
+                    //block has lowered past starting
+                    if (userData.altitude < 200 - userData.size / 1.5)   {
+                        scene.remove(blocks[key]);
+                        delete blocks[key];
+                        totalBlocksOnGlobe--;
+                        console.log("Removing block. Now " + totalBlocksOnGlobe +" blocks on globe.")
+
+                        //return;
+                    }
+                    else{
+                        userData.altitude -= 1;
+                        userData.targetAltitude -= 1;
+                        set3dPosition(block);
+                        block.updateMatrix();
+                    }
+
+                    //block.material.color.set('#'+Math.floor(Math.random()*16777215).toString(16))
                 }
-                //block.material.color.set('#'+Math.floor(Math.random()*16777215).toString(16))
 
-                userData.altitude -= 1;
-                userData.targetAltitude -= 1;
-                set3dPosition(block);
-                block.updateMatrix();
+            }
+            else{
+                console.log("Not reducing, only "+ totalBlocksOnGlobe+" blocks on globe right now.")
             }
 
-        }, 5000);
+        }, 60000);
 
     };
     periodicReducer();
@@ -647,7 +659,7 @@ var Globe = function(container, urls) {
         var key = hashCoordinate(data.lat, data.lon);
         var preExistingDataAtLocation = blocks[key];
 
-        console.log(key,preExistingDataAtLocation)
+        //console.log(key,preExistingDataAtLocation)
 
         if (preExistingDataAtLocation) {
             console.log("INSIDE")
@@ -670,7 +682,7 @@ var Globe = function(container, urls) {
             blocks[key] = block;
             levitatingBlocks.push(block);
             scene.add(block);
-
+            totalBlocksOnGlobe++;
         }
 
         return this;

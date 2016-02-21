@@ -1,3 +1,5 @@
+
+
 <div id="globe" ></div>
 
 
@@ -5,43 +7,90 @@
 
 
 
-<!--<div class="container" >-->
-    <div id="controlOverlay"  class="center" style="color:white; width:100%;  position:absolute; z-index: 1">
-        <div class="row center" style="">
-            <div class="three columns">
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
+<div class="" style="width:100%" >
+    <div id="controlOverlay"  class="center" style="color:white; width:100%;  position:absolute; z-index: 1;">
 
-                <div class="side-controls" ng-click="globe.displayTrackingCode()">
-                    <i class="fa fa-code" ></i>
-                </div>
+        <div id="navbar" >
+            <!--<div id="navbar-contents" >-->
+                <span  id="title" class="left hide-timeout">
+                    <h4 >TrafficGlobe.io</h4>
+                </span>
 
-            </div>
-            <div class="six columns">
-                <h3 contenteditable="true" ng-model="profile.globeTitle">    </h3>
-            </div>
-            <div class="three columns">
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
+                <span class="" >
+                    <h4 class="" style="padding: 0;" contenteditable="true" ng-model="profile.globeTitle">    </h4>
+                </span>
 
 
-                <div class="side-controls">
-                    <div  ng-repeat="(thing, value) in globe.urlDictionary">
-                        <img src="{{value}}" style="width:100px" ng-click="globe.changeGlobeImage(value)"/>
-                    </div>
-                </div>
+                <span class="right" id="left-links" style=" ">
+                    <h6 class="hide-timeout" ng-click="globe.displayTrackingCode()">Setup</h6>
 
-            </div>
+                    <h6 class="hide-timeout">User Guide</h6>
 
+                    <h6 class="hide-timeout">Pricing</h6>
+
+                    <h6 class="hide-timeout">About</h6>
+                </span>
+            <!--</div>-->
         </div>
+
+
+
+
+
+        <div class="center hide-timeout" style=" position:absolute; top: 80vh; width:100%" id="globeImagesControls">
+            <span  ng-repeat="(thing, value) in globe.urlDictionary">
+                <img src="{{value}}" style="width:150px; padding-left:10px; padding-right: 10px" ng-click="globe.changeGlobeImage(value)"/>
+            </span>
+        </div>
+
+    </div>
+
+    <!--<div class="center" id="globeTitle" style=" position: absolute; width:100%; top: 1vh; ">-->
+    <!--</div>-->
+
+
+
+</div>
+
+
+
+
+
+<!--<div class="row center" style="">-->
+            <!--<div class="three columns">-->
+                <!--<br/>-->
+                <!--<br/>-->
+                <!--<br/>-->
+                <!--<br/>-->
+                <!--<br/>-->
+                <!--<br/>-->
+
+                <!--<div class="side-controls" ng-click="globe.displayTrackingCode()">-->
+                    <!--<i class="fa fa-code" ></i>-->
+                <!--</div>-->
+
+            <!--</div>-->
+            <!--<div class="six columns">-->
+                <!--<h3 contenteditable="true" ng-model="profile.globeTitle">    </h3>-->
+            <!--</div>-->
+            <!--<div class="three columns">-->
+                <!--<br/>-->
+                <!--<br/>-->
+                <!--<br/>-->
+                <!--<br/>-->
+                <!--<br/>-->
+                <!--<br/>-->
+
+
+                <!--<div class="side-controls">-->
+                    <!--<div  ng-repeat="(thing, value) in globe.urlDictionary">-->
+                        <!--<img src="{{value}}" style="width:100px" ng-click="globe.changeGlobeImage(value)"/>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+
+        <!--</div>-->
 
 
 
@@ -53,6 +102,4 @@
         <!--<input type="text" style="-webkit-appearance:none; color:black" ng-model="profile.globeTitle">-->
         <!--<h1 contenteditable  ng-model="profile.globeTitle" style=""></h1>-->
 
-    </div>
 
-<!--</div>-->
