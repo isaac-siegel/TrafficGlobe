@@ -252,7 +252,7 @@ var Globe = function(container, urls) {
                 ].join('\n'),
                 side: THREE.BackSide,
                 blending: THREE.AdditiveBlending,
-                transparent: false
+                transparent: true
             });
 
             var mesh = new THREE.Mesh(earthGeometry, material);
@@ -697,7 +697,7 @@ var Globe = function(container, urls) {
             var oldBlock = preExistingDataAtLocation;
             var userData = oldBlock.userData;
             // Increase target altitude
-            userData.targetAltitude = userData.targetAltitude + 10;
+            userData.targetAltitude = userData.targetAltitude + 1;
 
             // If block elevation is already in progress, do nothing
             if (levitatingBlocks.indexOf(oldBlock) != -1) {

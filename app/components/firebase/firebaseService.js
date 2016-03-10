@@ -3,6 +3,7 @@ app.service('firebaseService', function($q, $firebase, $firebaseAuth, $firebaseO
     var rootRef = new Firebase("https://trafficglobe.firebaseio.com/");
     var auth = $firebaseAuth(rootRef);
     var username = "";
+    var onlyLoadNew = false;
     var user = {};
     var globe;
 
@@ -22,20 +23,28 @@ app.service('firebaseService', function($q, $firebase, $firebaseAuth, $firebaseO
 
     function streamDataToGlobe(){
         var trafficRef = rootRef.child("users").child(user.uid).child("trafficData");
+        var newData = true;
         trafficRef.on("child_added", function(snapshot, prevChildKey) {
-            var stuff = snapshot.val();
-            var data = {
-                //color: '#'+Math.floor(Math.random()*16777215).toString(16),
-                color: "#39FF14",
-                lat: parseFloat(stuff.latitude),
-                lon: parseFloat(stuff.longitude),
-                // lat: 52.3747158,
-                // lon: 4.8986231,
-                size: 20
-            };
+            if (newData){
+                var stuff = snapshot.val();
+                var data = {
+                    //color: '#'+Math.floor(Math.random()*16777215).toString(16),
+                    color: "#39FF14",
+                    lat: parseFloat(stuff.latitude),
+                    lon: parseFloat(stuff.longitude),
+                    // lat: 52.3747158,
+                    // lon: 4.8986231,
+                    size: 20
+                };
 
-            globe.addDynamicBlock(data);
-        })
+                globe.addDynamicBlock(data);
+            }
+        });
+        if (onlyLoadNew){
+            trafficRef.once('value', function(messages) {
+                newData = true;
+            });
+        }
     }
 
     checkAuthState();
